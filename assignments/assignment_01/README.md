@@ -11,10 +11,19 @@ mkdir scripts
 mkdir output
 mkdir docs
 
-Now, move into each sub directory and create placeholder files (for examples, and to be able to push to github).
+Now, move into each subdirectory and create placeholder files or new subdirectories (for examples, and to be able to push to github).
+For the data folder, I added folders for raw and clean data as well to make sure that the original data stays unedited.
 
 cd data
+mkdir raw
+mkdir clean
+cd raw
 touch test_data_v1.csv
+cd ..
+cd clean
+touch test_data_v1_clean.csv
+cd ..
+
 cd ..
 cd docs
 touch test_documentation.txt
