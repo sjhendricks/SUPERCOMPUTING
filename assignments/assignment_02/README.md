@@ -83,29 +83,33 @@ Note that the hash digests are the same in both computers, so the files were tra
 Task 5: 
 
 In the local computer, add aliases.
-Note that to use the "--group-directories-first" command, I had to run the following commands:
+Note that to use the "--group-directories-first" command, I had to rerun the following command used in assignment_00 for this to work:
 brew install coreutils
 
-Then, add an alias in the .zshrc so that ls command references the new gls command.
+Then, add an alias in the .zshrc so that ls command references the gls comand.
 
+Now, the steps to add each alias.
 nano ~/.zshrc
 
 Within the .zshrc file, add the following aliases:
 
 alias u='cd ..;clear;pwd;ls -alFh --group-directories-first'
 # this alias moves back to the parent directory, clears the screen, lists the directory path, and then lists all files in the directory
-# the files are listed including hidden files, longways, with file type symbols and human readable
+# the files are listed including hidden files, longways, with file type symbols, and in human readable format
 # the files are also grouped with directories being listed first, then other files
+
 alias d='cd -;clear;pwd;ls -alFh --group-directories-first'
 # this alias moves to the previous directory, clears the screen, lists the directory path, and then lists all files in the directory
-# the files are listed including hidden files, longways, with file type symbols, and human readable
+# the files are listed including hidden files, longways, with file type symbols, and in human readable format
 # the files are also grouped with directories being listed first, then other files
+
 alias ll='ls -alFh --group-directories-first'
 # this alias lists files in the current directory
-# the files are listed including hidden files, longways, with file type symbols and human readable
+# the files are listed including hidden files, longways, with file type symbols, and in human readable format
 # the files are also grouped with directories being listed first, then other files
+
 alias ls='gls'
-# This alias allows me to run the --group-directories-first using MacOS
+# This alias allows me to run ls --group-directories-first using MacOS
 
 Enabled all new aliases by running the following:
 source ~/.zshrc
@@ -126,8 +130,8 @@ Reflection:
 
 For this assignment, the biggest barrier was working with ftp and aliases on Mac.
 I ran into the same errors with ftp that I think others did as well, but this was cleared up by using the passive command.
-For the aliasing issue, I had to install a new package using homebrew and add an alias so that the "--group-directories-first" flag was able to run. 
-Otherwise I felt prepared to use FileZilla and check hash digests from working in class.
+For the aliasing issue, I had to reinstall a package using homebrew and add an alias so that the "--group-directories-first" flag was able to run. 
+Overall however, I felt prepared to move files, use FileZilla, and check hash digests from working in class.
 After assignment 1 I have been trying to use single commands with relative filepaths instead of multiple cd commands, but I sometimes still get confused on the best way to do this and have to test if the command works a few times. 
-The last thing I had to be careful about was to really make sure to pull from git hub every time I moved between computers, since I was moving back and forth a lot.
+The last thing I had to be careful about was to really make sure to pull from git hub every time I moved between computers, since I was moving back and forth multiple times for this assignment.
 In the future I need to continue to make sure that I remember to pull from github, and I also want to practice using sftp versus filezilla to move files so that I can feel comfortable with both.
