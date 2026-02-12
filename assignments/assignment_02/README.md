@@ -127,6 +127,7 @@ Reflection:
 For this assignment, the biggest barrier was working with ftp and aliases on Mac.
 I ran into the same errors with ftp that I think others did as well, but this was cleared up by using the passive command.
 For the aliasing issue, I had to install a new package using homebrew and add an alias so that the "--group-directories-first" flag was able to run. 
-Otherwise I felt prepared to use FileZilla and check hash digests from working in class. After assignment 1 I have been trying to use single commands with relative filepaths instead of multiple cd commands, but I sometimes still get confused on the best way to do this and have to test if the command works a few times. 
+Otherwise I felt prepared to use FileZilla and check hash digests from working in class.
+After assignment 1 I have been trying to use single commands with relative filepaths instead of multiple cd commands, but I sometimes still get confused on the best way to do this and have to test if the command works a few times. 
 The last thing I had to be careful about was to really make sure to pull from git hub every time I moved between computers, since I was moving back and forth a lot.
 In the future I need to continue to make sure that I remember to pull from github, and I also want to practice using sftp versus filezilla to move files so that I can feel comfortable with both.
