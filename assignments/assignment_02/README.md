@@ -49,7 +49,7 @@ Click and drag files from local computer to the folder on the HPC:
 
 Return to HPC in terminal, and locate the recently moved files in the assignment_02/data folder. Check permissions on the file to ensure readability.
 
-cd ../SUPERCOMPUTING/assignments/assignment_02/data/
+cd ~/SUPERCOMPUTING/assignments/assignment_02/data/
 ll
 chmod 744 GCF_000005845.2_ASM584v2_genomic.fna.gz
 chmod 744 GCF_000005845.2_ASM584v2_genomic.gff.gz
@@ -70,7 +70,7 @@ md5sum GCF_000005845.2_ASM584v2_genomic.gff.gz
 
 Now, log into HPC and confirm hash digests there.
 
-cd ../SUPERCOMPUTING/assignments/assignment_02/data
+cd ~/SUPERCOMPUTING/assignments/assignment_02/data
 md5sum GCF_000005845.2_ASM584v2_genomic.fna.gz   
 # result: e1b894042b53655594a1623a7e0bb63f  GCF_000005845.2_ASM584v2_genomic.fna.gz
 md5sum GCF_000005845.2_ASM584v2_genomic.gff.gz
@@ -112,18 +112,21 @@ source ~/.zshrc
 
 -------------------------------------
 
-Finally, I added the data from assignment_02 to a .gitignore file so that the data is not pushed to github for this project.
+Additionally, while in the HPC, I added the data from assignment_02 to a .gitignore file so that the data is not pushed to github for this project.
 
-touch ../SUPERCOMPUTING/.gitignore
+touch ~/SUPERCOMPUTING/.gitignore
 nano .gitignore
 
-Now, add assignments/assignment_02/data/
+Now, add to the .gitignore file
+assignments/assignment_02/data/
 
 -------------------------------------
 
 Reflection:
 
-For this assignment, the biggest barrier was working with ftp and aliases on Mac. I ran into the same errors with ftp that I think others did as well, but this was cleared up by using the passive command.
+For this assignment, the biggest barrier was working with ftp and aliases on Mac.
+I ran into the same errors with ftp that I think others did as well, but this was cleared up by using the passive command.
 For the aliasing issue, I had to install a new package using homebrew and add an alias so that the "--group-directories-first" flag was able to run. 
-Otherwise I felt prepared to use FileZilla and check hash digests from working in class. After assignment 1 I have been trying to use single commands with relative filepaths instead of multiple cd commands, but I sometimes still get confused on the best way to do this. 
-The last thing I had to be careful about was to really make sure to pull from git hub every time I moved between computers.
+Otherwise I felt prepared to use FileZilla and check hash digests from working in class. After assignment 1 I have been trying to use single commands with relative filepaths instead of multiple cd commands, but I sometimes still get confused on the best way to do this and have to test if the command works a few times. 
+The last thing I had to be careful about was to really make sure to pull from git hub every time I moved between computers, since I was moving back and forth a lot.
+In the future I need to continue to make sure that I remember to pull from github, and I also want to practice using sftp versus filezilla to move files so that I can feel comfortable with both.
