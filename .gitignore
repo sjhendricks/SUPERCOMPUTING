@@ -1,5 +1,6 @@
-# ignore data from assignment 02
+# ignore data from assignments
 assignments/assignment_02/data/
+assignments/assignment_03/data/
 
 # ignore data from lesson_03
 lessons/lesson_03/data/
