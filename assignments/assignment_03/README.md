@@ -7,6 +7,7 @@ Sarah Hendricks
 First, set up the folders within the assignment 03 folder.
 
 mkdir ./data ./scripts ./outputs
+
 cd ./data
 
 This project will be focused in the ./data folder, working with a fasta sequence file and unix tools.
@@ -70,7 +71,14 @@ grep "^>" ${seq} | sort | head -n 1
 
 paste <(grep "^>" ${seq}) <(grep -v "^>" ${seq}) > tab_sep_seq
 
+## Extra Steps
+For this section, I went back from the assignment_03/data folder to the repository .gitignore file (cd ../../..) and added the following using nano:
 
+assignments/assignment_03/data/
+
+so that the data from this project is not pushed to github.
+
+I did however use filezilla to transfer the data that was used in this assignment from the HPC to my local computer so that I have access to it on both machines.
 
 ## Reflection
 I tried to follow closely to what we did in class for this assignment. One of the biggest things I ran into was that it was difficult to test each part of the whole command, since the genome sequences are so many characters that the terminal would become so slow if I accidentally read the file to the screen. So, I tried to either work with mostly the genome header lines or pipe everything to word/line counts since that was able to print without buffering. When possible, I would work with each section of the final command that I ended up with to make sure each part was functioning correctly before adding another section. For the questions themselves, I had to work out question 2 on how to make sure that I wasn’t counting line breaks, but I think that tr works well here (I would just want to make sure I am careful in the future about using tr -d and deleting characters). One thing that I did to make the overall process a little easier was to assign the filename to a variable, so that I could use that repeatedly instead of the entire filename. For commands that were similar I was also able to reuse some of the same code and just edit the head/tail commands in order to get the result for the line that was needed. The last thing I did for this assignment was to make sure that the data folder in the assignment_03 directory was entered into the .gitignore file for the Supercomputing repository. I moved the genome data file for this assignment to my local computer using filezilla as well so that I have access without pushing the data to github.
