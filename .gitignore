@@ -4,3 +4,6 @@ assignments/assignment_03/data/
 
 # ignore data from lesson_03
 lessons/lesson_03/data/
+
+# ignore data from quiz_03
+quizzes/quiz_03/
