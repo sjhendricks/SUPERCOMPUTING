@@ -1,5 +1,6 @@
-#Assignment 03
+# Assignment 03
 Sarah Hendricks
+
 2/18/2026
 
 ## Task 1
@@ -71,7 +72,7 @@ paste <(grep "^>" ${seq}) <(grep -v "^>" ${seq}) > tab_sep_seq
 
 
 
-Reflection:
+## Reflection
 I tried to follow closely to what we did in class for this assignment. One of the biggest things I ran into was that it was difficult to test each part of the whole command, since the genome sequences are so many characters that the terminal would become so slow if I accidentally read the file to the screen. So, I tried to either work with mostly the genome header lines or pipe everything to word/line counts since that was able to print without buffering. When possible, I would work with each section of the final command that I ended up with to make sure each part was functioning correctly before adding another section. For the questions themselves, I had to work out question 2 on how to make sure that I wasn’t counting line breaks, but I think that tr works well here (I would just want to make sure I am careful in the future about using tr -d and deleting characters). One thing that I did to make the overall process a little easier was to assign the filename to a variable, so that I could use that repeatedly instead of the entire filename. For commands that were similar I was also able to reuse some of the same code and just edit the head/tail commands in order to get the result for the line that was needed. The last thing I did for this assignment was to make sure that the data folder in the assignment_03 directory was entered into the .gitignore file for the Supercomputing repository. I moved the genome data file for this assignment to my local computer using filezilla as well so that I have access without pushing the data to github.
 
 As for using these skills in computing work, in general being able to manipulate and search for specific patterns in really large text files without having to do so manually is both time-saving and could potentially reduce the chance of missing instances of the pattern. Having the knowledge of these tools to organize data within files and also move any changes or edits into a new file so that the original data stays unedited is also really important. I have used similar functions in python to clean/process data (string methods), so being able to do this really quickly in terminal is definitely useful.
