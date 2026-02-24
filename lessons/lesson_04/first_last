@@ -1,0 +1,6 @@
+#!/bin/bash
+set -ueo pipefail
+
+#prints first and last lines of STDIN
+head -n 1 $1
+tail -n 1 $1
