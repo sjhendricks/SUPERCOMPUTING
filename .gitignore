@@ -6,6 +6,7 @@ assignments/assignment_04/data/
 # ignore data from lessons
 lessons/lesson_03/data/
 lessons/lesson_04/data/
+lessons/lesson_05/data/*.fastq
 
 # ignore data from quiz_03
 quizzes/quiz_03/
