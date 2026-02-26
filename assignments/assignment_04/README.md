@@ -17,7 +17,9 @@ To find file visit the following site:
 
 https://github.com/cli/cli
 
-Navigate to README.md on the site. Then scroll down to locate "releases" hyperlink.
+Navigate to README.md on the site. Then scroll down to locate "releases page" hyperlink.
+
+Once there, navigate to "releases" at the top left from the current page/version.
 
 Find the version 2.74.2 (page 3 when I looked) on the releases page.
 
