@@ -66,6 +66,8 @@ Now, add the output gh file to the path, by using nano ~/.bashrc
 
 export PATH=$PATH:/sciclone/home/sjhendricks/programs/gh_2.74.2_linux_amd64"
 
+exec bash
+
 ## Task 5
 Run gh auth login to setup Github. This was accomplished in class.
 
@@ -104,12 +106,11 @@ cd seqtk; make
 
 \#instructions to add directory
 
-/sciclone/home/sjhendricks/programs
-
-echo "export PATH=$PATH:/sciclone/home/sjhendricks/programs/seqtk" >> ~/.bashr
+echo "export PATH=$PATH:/sciclone/home/sjhendricks/programs/seqtk" >> ~/.bashrc
 
 
 Also, make sure to run chmod +x install_seqtk.sh to make executable.
+Finally, run exec bash to update path.
 
 ## Task 7
 Experiment with seqtk. 
@@ -204,6 +205,7 @@ Caenorhabditis elegans, brassica oleracea var. italics, and pyrus communis (c el
 Used genomes WBcel235, ASM3464025v1,drPyrComm1.1 respectively.
 
 Went to ftp page for each genome, found file ending in  _genomic.fna.gz to transfer.
+From this page I could copy the name/ filepath to the file to use in ftp.
 
 
 From here, used ftp on local machine, assignment_04/data directory, similar to assignment_02:
@@ -219,25 +221,27 @@ passive
 
 \#repeat the beginning for each of these, follwed by 'bye'
 
-cd genomes/all/GCF/000/002/985/GCF_000002985.6_WBcel235/
+1. cd genomes/all/GCF/000/002/985/GCF_000002985.6_WBcel235/
 
 get GCF_000002985.6_WBcel235_genomic.fna.gz
 
-cd genomes/all/GCA/034/640/255/GCA_034640255.1_ASM3464025v1/
+2. cd genomes/all/GCA/034/640/255/GCA_034640255.1_ASM3464025v1/
 
 get GCA_034640255.1_ASM3464025v1_genomic.fna.gz
 
-cd genomes/all/GCF/963/583/255/GCF_963583255.1_drPyrComm1.1
+3. cd genomes/all/GCF/963/583/255/GCF_963583255.1_drPyrComm1.1
 
 get GCF_963583255.1_drPyrComm1.1_genomic.fna.gz
+
 
 bye
 
 
-Then, used filezilla to move downloaded files to the HPC, same directory.
+Then, used filezilla to move downloaded files to the HPC, same directory name (assignments/assignment_04/data)
 
 However, when used gunzip 'filename' for each file, got an error. I couldn't figure out a workaround for this, I attempted making sure that the ftp was set to 'binary', but it might have been worth trying to use wget instead here, since nothing else seemed to work.
 Eventually, I decided to just make a copy of the file used in a previous assignment, like I described above.
+I removed the downloaded files at this point.
 
 Other than this the only thing I ran into was trying to figure out the best way to create the table for the summarize_fasta.sh script.
 At that point I hadn't figured out the comp command from seqtk, so it took some googling (e.g. "seqtk how to make a table") to find that command, which was really helpful.
