@@ -37,19 +37,19 @@ tar -xzvf gh_2.74.2_linux_amd64.tar.gz
 Building install_gh.sh script to complete the above.
 
 
-/#!/bin/bash
+\#!/bin/bash
 
 set -ueo pipefail
 
-/#get github version
+\#get github version
 
 wget https://github.com/cli/cli/releases/download/v2.74.2/gh_2.74.2_linux_amd64.tar.gz
 
-/#unpack file
+\#unpack file
 
 tar -xzvf gh_2.74.2_linux_amd64.tar.gz
 
-/#remove zipped file
+\#remove zipped file
 
 rm gh_2.74.2_linux_amd64.tar.gz
 
@@ -90,17 +90,17 @@ cd seqtk; make
 Now, using nano install_seqtk.sh
 
 
-/#!/bin/bash
+\#!/bin/bash
 
 set -ueo pipefail
 
-/#install seqtk
+\#install seqtk
 
 git clone https://github.com/lh3/seqtk.git;
 
 cd seqtk; make
 
-/#instructions to add directory
+\#instructions to add directory
 
 /sciclone/home/sjhendricks/programs
 
@@ -117,7 +117,7 @@ The command that ended up being important for later in the assignment is comp, w
 Reverse complement (seqtk seq -r in.fq > out.fq) is also useful, so you don't have to use tr to accomplish reverse like we discussed in class. Also, since this works with FASTQ files, there is also a command to convert between FASTA/FASTQ files, which is convenient.
 
 ## Task 8
-summarize_fasta.sh
+Create summarize_fasta.sh
 
 Move to assignment_04 directory.
 
@@ -128,27 +128,27 @@ cd ~/SUPERCOMPUTING/assignments/assignment_04/scripts
 Now, nano summarize_fasta.sh
 
 
-/#!/bin/bash
+\#!/bin/bash
 
 set -ueo pipefail
 
-/# save fasta file name as a variable (input)
+\# save fasta file name as a variable (input)
 
 file=${1}
 
-/# shorten file name
+\# shorten file name
 
 short=$(basename $file)
 
-/# calculate and save total number of sequences
+\# calculate and save total number of sequences
 
 seqs=$(grep "^>" ${file} | wc -l)
 
-/# calculate and save total number of nucleotides
+\# calculate and save total number of nucleotides
 
 nucleotides=$(grep -v "^>" ${file} |tr -d "\n" | wc -c)
 
-/# table of sequence names and lengths
+\# table of sequence names and lengths
 
 table=$(seqtk comp ${file} | cut -f1,2)
 
@@ -176,6 +176,7 @@ wget https://gzahn.github.io/data/GCF_000001735.4_TAIR10.1_genomic.fna.gz
 gunzip GCF_000001735.4_TAIR10.1_genomic.fna.gz
 
 cp GCF_000001735.4_TAIR10.1_genomic.fna.gz genome_copy_01.fna
+
 cp GCF_000001735.4_TAIR10.1_genomic.fna.gz genome_copy_02.fna
 
 
@@ -207,9 +208,14 @@ From here, used ftp on local machine, assignment_04/data directory, similar to a
 (note, logged into ftp separate times for each genome using the same beginning commands)
 
 ftp ftp.ncbi.nlm.nih.gov
+
 anonymous
+
 Password: email
+
 passive
+
+\#repeat the beginning for each of these, follwed by 'bye'
 
 cd genomes/all/GCF/000/002/985/GCF_000002985.6_WBcel235/
 
@@ -228,7 +234,7 @@ bye
 
 Then, used filezilla to move downloaded files to the HPC, same directory.
 
-However, when used gunzip 'filename' for each file, got an error. I couldn't figure out a workaround for this, I attempted makin>
+However, when used gunzip 'filename' for each file, got an error. I couldn't figure out a workaround for this, I attempted making sure that the ftp was set to 'binary', but it might have been worth trying to use wget instead here, since nothing else seemed to work.
 Eventually, I decided to just make a copy of the file used in a previous assignment, like I described above.
 
 Other than this the only thing I ran into was trying to figure out the best way to create the table for the summarize_fasta.sh script.
