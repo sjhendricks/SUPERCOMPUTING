@@ -10,11 +10,14 @@ mkdir -p ./data/raw ./data/trimmed ./log ./scripts
 ## Task 2
 Create a script to download and prepare fastq data.
 
+This script downloads fastq files from github and extracts the contents into the raw data folder created in the previous step.
+
 Before we begin, be sure to nano .gitignore and add assignments/assignment_05/data/
 
 
 Nano ./scripts/01_download_data.sh
 
+---------------
 
 \#!/bin/bash
 
@@ -32,6 +35,7 @@ tar -xvf fastq_examples.tar -C ./data/raw
 
 rm fastq_examples.tar
 
+---------------
 
 Run this aftwerwards so that the script is executable.
 chmod +x 01_download_data.sh
@@ -42,13 +46,14 @@ export PATH=$PATH:/sciclone/home/sjhendricks/SUPERCOMPUTING/assignments/assignme
 ## Task 3
 Install and explore fastp tool.
 
-This script installed the latest version (v1.1.0) of fastp.
+This script installs the latest version (v1.1.0) of fastp from github, using code provided on this website:https://github.com/OpenGene/fastp/blob/master/README.md#get-fastp
 
 
 cd ~/programs
 
 nano install_fastp.sh
 
+---------------
 
 \#!/bin/bash
 
@@ -58,15 +63,20 @@ wget http://opengene.org/fastp/fastp
 
 chmod a+x ./fastp
 
+---------------
 
 Run this to make sure that the script is executable
-chmod + x install_fastp.sh
+chmod +x install_fastp.sh
 
 Programs is already in path in .bashrc so no need to add.
 
 ## Task 4
 Create a script to run fastp.
 
+cd ~/SUPERCOMPUTING/assignments/assignment_05/scripts
+
+nano 02_run_fastp.sh
+---------------
 #!/bin/bash
 
 set -ueo pipefail
@@ -109,5 +119,56 @@ fastp \
 
 --average_qual 20 # discards reads <20 avg quality
 
+---------------
+
+Run this to make sure that the script is executable
+chmod +x 02_run_fastp.sh
+
 ## TASK 5
 Create the pipeline.
+
+cd ~/SUPERCOMPUTING/assignments/assignment_05
+
+nano pipeline.sh
+
+---------------
+
+\#!/bin/bash
+
+set -ueo pipefail
+
+\#download data
+
+./scripts/01_download_data.sh
+
+\#run fastp on data
+
+for file in ./data/raw/*_R1_*
+
+do
+
+./scripts/02_run_fastp.sh $file
+
+done
+
+---------------
+
+Run this to make sure that the script is executable
+
+chmod +x pipeline.sh
+
+Also, make sure that the assignment_05 folder is added to the path.
+
+nano ~/.bashrc
+
+export PATH=$PATH:/sciclone/home/sjhendricks/SUPERCOMPUTING/assignments/assignment_05
+
+
+
+This pipeline runs both of the scripts created in the previous tasks. 
+By running ./pipeline.sh in the assignment_05 directory, the above code first runs first the 01_download_data.sh script to download and prepare the fastq files.
+Then, the script includes a for loop that executes 02_run_fastp.sh on each forward file (includes _R1_ in the name) in the data/raw folder (previously downloaded there by 01_download_data.sh).
+The 02_run_fastp.sh script places the processed data in data/trimmed to avoid modifying the original data.
+
+## Reflection
+
