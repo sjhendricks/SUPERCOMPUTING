@@ -172,17 +172,18 @@ export PATH=$PATH:/sciclone/home/sjhendricks/SUPERCOMPUTING/assignments/assignme
 This pipeline runs both of the scripts created in the previous tasks. 
 By running ./pipeline.sh in the assignment_05 directory, the above code first runs first the 01_download_data.sh script to download and prepare the fastq files.
 Then, the script includes a for loop that executes 02_run_fastp.sh on each forward file (includes \_R1_ in the name) in the data/raw folder (previously downloaded there by 01_download_data.sh).
-The 02_run_fastp.sh script places the processed data in data/trimmed to avoid modifying the original data.
+The 02_run_fastp.sh script places the processed data in /data/trimmed to avoid modifying the original data.
 
 ## Reflection
 
-For this assignment, I felt pretty confident in writing scripts since we have worked so much in class.
-The main issues I ran into for this assignment were making sure the data ended up in the correct folder.
-The hint given helped a lot- at first I didn’t consider that since the input is a file name it includes data/raw in the variables.
+For this assignment, I felt pretty confident in writing scripts since we have worked so much on this in class.
+One of the main issues I ran into for this assignment was making sure the data ended up in the correct folder.
+The hint given helped a lot for this, because at first I didn’t consider that since the input is a file name it includes "/data/raw" in the actual variables. So to change this path you can just use parameter expansion to substitute trimmed in the same place that raw is in the input.
 As for new things I learned with this assignment, the fastp tool definitely seems like it would be useful for processing genomic data. 
-I was also glad for the chance to practice using parameter expansion for creating slightly different variable names. 
-This especially with the for loop, as it helped me to see the way you can apply fastp to multiple files and change the output to be what you want and go where you want them to.
-The flags for fastp are also really useful as you can make sure to send the json and html files away to dev/null and fine tune fastp to do exactly what you need.
+I was also glad for the chance to practice using parameter expansion for creating slightly different variable names for accessing multiple files or creating new filenames. 
+The same goes for working with another for loop, as it helped me to see the way you can apply fastp to multiple files in a row and just change what you need within the name so that each file has the same naming convention within one step.
+The flags for fastp are also really useful as you can make sure to send the json and html files away to /dev/null and fine-tune fastp to do exactly what you need.
 Finally, for why to separate a process into multiple different specific scripts and then run them all in a pipeline: this increases the modularity of a project.
-By separating a process into scripts that each do one job, it is easier to locate a potential issue in the pipeline ( I found this out when working on the assignment, as it let me know when there was an issue with the 02 file and I could easily go fix it, I know this won’t always be the case however). The cons to this are that in a large process there could be many scripts involved. 
-Another issue is we have run into with using separate scripts is if one script requires an argument to be passed, it takes some decisions on how you want that to be involved in the pipeline since a lot of the time variables don’t carry over into subshells.
+By separating a process into scripts that each do one job, it is easier to locate a potential issue in the pipeline ( I found this out when working on the assignment, as it let me know when there was an issue with the 02_run_fastp.sh script and I could easily go to locate and fix it. I know this might not always be the case that it lets me know the exact error and line location however). 
+The cons to this are that in a large process there could be many scripts involved, but this still seems preferable to one giant script file. 
+Another issue that we have run into in class with using separate scripts is that if one script requires an argument to be passed, it takes some decisions on how you want that to be incorporated into the pipeline since a lot of the time variables don’t carry over into subshells, and you may not want the pipeline to take an argument at all.
