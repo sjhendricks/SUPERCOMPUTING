@@ -20,19 +20,17 @@ nano ./scripts/01_download_data.sh
 ---------------
 
 \#!/bin/bash
+
 set -ueo pipefail
 
 \# download genomic data
 
-wget -P ../data https://zenodo.org/records/15730819/files/SRR33939694.fastq.gz?download=1
+wget -P ./data https://zenodo.org/records/15730819/files/SRR33939694.fastq.gz?download=1
 
 \# rename data to be usable with flye
 
-cd ../data
+mv ./data/'SRR33939694.fastq.gz?download=1' ./data/SRR33939694.fastq.gz
 
-mv 'SRR33939694.fastq.gz?download=1' SRR33939694.fastq.gz
-
-cd ..
 ---------------
 
 chmod +x 01_download_data.sh
@@ -45,9 +43,12 @@ Download instructions can be found at: https://github.com/mikolmogorov/Flye/blob
 nano ./scripts/02_flye_2.9.6_manual_build.sh
 
 ---------------
+
 \#!/bin/bash
 
 set -ueo pipefail
+
+\# put this into programs
 
 cd ~/programs
 
@@ -58,17 +59,18 @@ git clone https://github.com/fenderglass/Flye
 cd Flye
 
 make
----------------
 
-chmod +x ./scripts/02_flye_2.9.6_manual_build.sh
+cd ~/SUPERCOMPUTING/assignments/assignment_06
 
 \# Add Flye to path
 
-nano ~/.bashrc
+echo "export PATH=$PATH:~/programs/Flye/bin" >> ~/.bashrc
 
-export PATH=$PATH:/sciclone/home/sjhendricks/programs/Flye/bin
+exec bash
 
-cd ~/SUPERCOMPUTING/assignments/assignment_06
+---------------
+
+chmod +x ./scripts/02_flye_2.9.6_manual_build.sh
 
 ## Task 4
 Get flye v2.9.6 with conda
@@ -116,7 +118,7 @@ I used the flye documentation and chatgpt to figure out the best course of actio
 
 The command I ended up with is:
 
-flye --nano-raw ./data/SRR33939694.fastq.gz --meta  --out-dir OUT_DIR --threads 6 --genome-size 50k
+flye --nano-raw DATA_FILE --meta --out-dir OUT_DIR --threads 6 --genome-size 50k
 
 The data we are using is raw ONT data, so we will use --nano-raw
 
@@ -131,5 +133,189 @@ The data we are using is raw ONT data, so we will use --nano-raw
 More information on the data is found here: https://www.ncbi.nlm.nih.gov/sra/SRX29141853[accn]
 
 ## Task 6
+Create scripts to run the Task 5 flye command in each environment.
 
-here, input each script and what you changed for each described.
+1. Conda environment
+
+nano ./scripts/03_run_flye_conda.sh
+
+---------------
+
+\#!/bin/bash
+
+set -ueo pipefail
+
+\# load miniforge and conda. Activate conda environment
+
+module load miniforge3
+
+source "$(conda info --base)/etc/profile.d/conda.sh"
+
+conda activate flye-env
+
+\# run flye on the data
+
+flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_conda --threads 6 --genome-size 50k
+
+\# clean up files
+
+cd ./assemblies/assembly_conda
+
+rm -r 00-assembly 10-consensus 20-repeat 30-contigger 40-polishing
+
+rm assembly_graph.gfa assembly_info.txt assembly_graph.gv params.json
+
+mv assembly.fasta conda_assembly.fasta
+
+mv flye.log conda_flye.log
+
+cd ../..
+
+\# deactivate environment
+
+conda deactivate
+
+---------------
+
+2. Module Environment
+
+nano ./scripts/03_run_flye_module.sh
+
+---------------
+
+\#!/bin/bash
+set -ueo pipefail
+
+\# load module environment
+
+module load Flye
+
+\# run flye on the data
+
+flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_module --threads 6 --genome-size 50k
+
+\# clean up files
+
+cd ./assemblies/assembly_module
+
+rm -r 00-assembly 10-consensus 20-repeat 30-contigger 40-polishing
+
+rm assembly_graph.gfa assembly_info.txt assembly_graph.gv params.json
+
+mv assembly.fasta module_assembly.fasta
+
+mv flye.log module_flye.log
+
+cd ../..
+
+--------------
+
+3. Local Build
+
+nano ./scripts/03_run_flye_local.sh
+
+--------------
+
+\#!/bin/bash
+
+set -ueo pipefail
+
+\# run flye on the data
+
+flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_local --threads 6 --genome-size 50k
+
+\# clean up files
+
+cd ./assemblies/assembly_local
+
+rm -r 00-assembly 10-consensus 20-repeat 30-contigger 40-polishing
+
+rm assembly_graph.gfa assembly_info.txt assembly_graph.gv params.json
+
+mv assembly.fasta local_assembly.fasta
+
+mv flye.log local_flye.log
+
+cd ../..
+
+---------------
+
+## Task 7
+Compare results using created log files:
+
+cat ./assemblies/assembly_conda/conda_flye.log | tail -n 10
+cat ./assemblies/assembly_module/module_flye.log | tail -n 10
+cat ./assemblies/assembly_local/local_flye.log | tail -n 10
+
+Here, all the results are the same, seen below:
+
+1. Conda
+[2026-03-18 19:23:40] root: INFO: Assembly statistics:
+
+	
+	Total length:	91737
+	Fragments:	2
+	Fragments N50:	47452
+	Largest frg:	47452
+	Scaffolds:	0
+	Mean coverage:	421
+
+[2026-03-18 19:23:40] root: INFO: Final assembly: /sciclone/home/sjhendricks/SUPERCOMPUTING/assignments/assignment_06/assemblies/assembly_conda/assembly.fasta
+
+2. Module
+
+3. Local
+
+## Task 8
+Build a Pipeline
+
+nano pipeline.sh
+
+--------------
+
+\#!/bin/bash
+
+set -ueo pipefail
+
+\# download data
+
+./scripts/01_download_data.sh
+
+\# build flye locally
+
+./scripts/02_flye_2.9.6_manual_build.sh
+
+\# install flye using conda
+
+./scripts/02_flye_2.9.6_conda_install.sh
+
+\# run flye using conda
+
+./scripts/03_run_flye_conda.sh
+
+\# run flye using module
+
+./scripts/03_run_flye_module.sh
+
+\# run flye using local
+
+./scripts/03_run_flye_local.sh
+
+\# compare log files
+
+cat ./assemblies/assembly_conda/conda_flye.log | tail -n 10
+
+cat ./assemblies/assembly_module/module_flye.log | tail -n 10
+
+cat ./assemblies/assembly_local/local_flye.log | tail -n 10
+
+--------------
+
+This pipeline runs all of the scripts created in the previous tasks.
+By running ./pipeline.sh in the assignment_06 directory, the above code first runs the 01_download_data.sh script to download the needed fastq file.
+Then, the pipeline runs the scripts to build flye locally and install in a conda environment.
+Finally, the pipeline runs three scripts that perform a flye command to the downloaded data in each of the environments created previously (including module, which does not need to be created).
+As a last step, the pipeline then prints the last 10 lines of each individual log file created in the previous step to STDOUT.
+
+## Reflection
+This was one of the most difficult assignments so far.
