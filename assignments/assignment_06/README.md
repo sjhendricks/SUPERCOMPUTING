@@ -64,9 +64,7 @@ cd ~/SUPERCOMPUTING/assignments/assignment_06
 
 \# Add Flye to path
 
-echo "export PATH=$PATH:~/programs/Flye/bin" >> ~/.bashrc
-
-exec bash
+export PATH="$PATH:~/programs/Flye/bin"
 
 ---------------
 
@@ -128,7 +126,7 @@ The data we are using is raw ONT data, so we will use --nano-raw
 
 --threads 6 determines that we will use 6 threads/cores for the assembly
 
---genome-size 50k was suggested to be a reasonable estimate for a coliphage genome after some research
+--genome-size 100k was suggested to be a reasonable estimate for a coliphage genome after some research
 
 More information on the data is found here: https://www.ncbi.nlm.nih.gov/sra/SRX29141853[accn]
 
@@ -155,7 +153,7 @@ conda activate flye-env
 
 \# run flye on the data
 
-flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_conda --threads 6 --genome-size 50k
+flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_conda --threads 6 --genome-size 100k
 
 \# clean up files
 
@@ -192,7 +190,7 @@ module load Flye
 
 \# run flye on the data
 
-flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_module --threads 6 --genome-size 50k
+flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_module --threads 6 --genome-size 100k
 
 \# clean up files
 
@@ -222,7 +220,7 @@ set -ueo pipefail
 
 \# run flye on the data
 
-flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_local --threads 6 --genome-size 50k
+flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_local --threads 6 --genome-size 100k
 
 \# clean up files
 
@@ -250,17 +248,6 @@ cat ./assemblies/assembly_local/local_flye.log | tail -n 10
 Here, all the results are the same, seen below:
 
 1. Conda
-[2026-03-18 19:23:40] root: INFO: Assembly statistics:
-
-	
-	Total length:	91737
-	Fragments:	2
-	Fragments N50:	47452
-	Largest frg:	47452
-	Scaffolds:	0
-	Mean coverage:	421
-
-[2026-03-18 19:23:40] root: INFO: Final assembly: /sciclone/home/sjhendricks/SUPERCOMPUTING/assignments/assignment_06/assemblies/assembly_conda/assembly.fasta
 
 2. Module
 
@@ -319,3 +306,16 @@ As a last step, the pipeline then prints the last 10 lines of each individual lo
 
 ## Reflection
 This was one of the most difficult assignments so far.
+I ran into the most issues when trying to either run the pipeline or a script that directly followed another.
+For example, with 01_download_data, I didn't realize I would need to edit the filename from the download until I tried to use flye on it and then got an error.
+The local build went pretty smoothly for this, as did the conda install.
+Learning how to use flye also was also a challenge- I relied a lot on the help flag documents they provided on github and chatgpt to explain the meanings in more detail to me.
+I had a lot of confusion on the signigicance on the "genome size" parameter, whether that meant the 49.6mb size on the data website or the hinted genome size for Coliphages (the one I ultimately went with).
+I chose that one because from my understanding, flye takes in the whole read (49.5mb) that has one or more genomes that overlap throughout the reads, so in this case we are looking for the Coliphage genomes which estimate about 100k.
+Flye did also take a longer to run than I had expected, around 3-4 minutes for each environment.
+I also had some problems with making sure that the local flye got added to path within the script, I kept getting unbound variable errors there. I ended up just writing the variable to path temporarily versus appending to bashrc, which worked, though it would be worth looking into a more long term solution for this personally.
+As for new things learned, I think I still would need to do a lot more research to have a deep understanding of flye, but I feel like I was able to grasp the basics from the research for this assignment.
+I think the main thing that I learned here is that there is a lot of patience in getting a pipeline with so many parts to work correctly. 
+I spent a lot of time working out small errors in each file, which made me grateful for the set -ueo pipefail aspect so that I didn't have to worry about waiting for the rest of the pipeline to finish after an error.
+
+The method I prefer is definitely module load since it is right there with minimal effort to access for the user. I know this is a special case where the module is actually installed however. I think for the next assignment I might see if conda works in the case of no module because I had the least issues with conda next after module. I had some issues incorporating the flye path to the script for local build (mentioned above) that I would like to avoid in the future!

@@ -5,7 +5,7 @@ set -ueo pipefail
 module load Flye
 
 #  run flye on the data
-flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_module --threads 6 --genome-size 50k
+flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_module --threads 6 --genome-size 100k
 
 # clean up files
 cd ./assemblies/assembly_module

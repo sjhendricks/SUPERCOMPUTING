@@ -8,7 +8,7 @@ source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate flye-env
 
 #  run flye on the data
-flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_conda --threads 6 --genome-size 50k
+flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_conda --threads 6 --genome-size 100k
 
 # clean up files
 cd ./assemblies/assembly_conda

@@ -2,7 +2,7 @@
 set -ueo pipefail
 
 #  run flye on the data
-flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_local --threads 6 --genome-size 50k
+flye --nano-raw ./data/SRR33939694.fastq.gz --meta --out-dir ./assemblies/assembly_local --threads 6 --genome-size 100k
 
 # clean up files
 cd ./assemblies/assembly_local

@@ -12,6 +12,4 @@ make
 cd ~/SUPERCOMPUTING/assignments/assignment_06
 
 # Add Flye to path
-echo "export PATH=$PATH:~/programs/Flye/bin" >> ~/.bashrc
-
-exec bash
+export PATH="$PATH:~/programs/Flye/bin"
