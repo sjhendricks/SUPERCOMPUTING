@@ -249,9 +249,42 @@ Here, all the results are the same, seen below:
 
 1. Conda
 
+[2026-03-19 01:14:21] root: INFO: Assembly statistics:
+
+	Total length:	91737
+	Fragments:	2
+	Fragments N50:	47452
+	Largest frg:	47452
+	Scaffolds:	0
+	Mean coverage:	421
+
+[2026-03-19 01:14:21] root: INFO: Final assembly: /sciclone/home/sjhendricks/SUPERCOMPUTING/assignments/assignment_06/assemblies/assembly_conda/assembly.fasta
+
 2. Module
 
+[2026-03-19 01:18:03] root: INFO: Assembly statistics:
+
+	Total length:	91737
+	Fragments:	2
+	Fragments N50:	47452
+	Largest frg:	47452
+	Scaffolds:	0
+	Mean coverage:	421
+
+[2026-03-19 01:18:03] root: INFO: Final assembly: /sciclone/home/sjhendricks/SUPERCOMPUTING/assignments/assignment_06/assemblies/assembly_module/assembly.fasta
+
 3. Local
+
+[2026-03-19 01:21:44] root: INFO: Assembly statistics:
+
+	Total length:	91737
+	Fragments:	2
+	Fragments N50:	47452
+	Largest frg:	47452
+	Scaffolds:	0
+	Mean coverage:	421
+
+[2026-03-19 01:21:44] root: INFO: Final assembly: /sciclone/home/sjhendricks/SUPERCOMPUTING/assignments/assignment_06/assemblies/assembly_local/assembly.fasta
 
 ## Task 8
 Build a Pipeline
