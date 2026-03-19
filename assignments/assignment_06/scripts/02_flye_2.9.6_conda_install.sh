@@ -6,9 +6,9 @@ module load miniforge3
 source "$(conda info --base)/etc/profile.d/conda.sh"
 
 # create environment for flye
-mamba create -y -n flye-env -c bioconda flye=2.9.6
+mamba create -y -n flye-env flye=2.9.6 -c bioconda
 
-activate flye-env
+conda activate flye-env
 
 # check flye version
 flye -v
@@ -17,4 +17,4 @@ flye -v
 conda env export --no-builds > flye-env.yml
 
 # deactivate environment
-deactiveate flye-env
+conda deactivate
