@@ -4,7 +4,7 @@ set -ueo pipefail
 # loop through files
 for accession in $(cat ./data/SraRunTable.csv | cut -d',' -f1 | tail -n +2);
 do
-FWD_IN=${accession}_1.fastq
+FWD_IN="./data/raw/${accession}_1.fastq"
 REV_IN=${FWD_IN/_1.fastq/_2.fastq}
 FWD_OUT=${FWD_IN/.fastq/_trimmed.fastq}
 REV_OUT=${REV_IN/.fastq/_trimmed.fastq};
