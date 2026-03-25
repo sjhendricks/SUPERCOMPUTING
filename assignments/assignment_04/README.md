@@ -6,16 +6,15 @@ Sarah Hendricks
 ## Task 1
 Create Program directory in the HPC (completed prior to assignment). 
 
-mkdir ~/programs
-
-cd ~/programs
+	mkdir ~/programs
+	cd ~/programs
 
 ## Task 2
 Download and unpack the gh "tarball" file.
 
 To find file visit the following site:
 
-https://github.com/cli/cli
+	https://github.com/cli/cli
 
 Navigate to README.md on the site. Then scroll down to locate "releases page" hyperlink.
 
@@ -25,53 +24,48 @@ Find the version 2.74.2 (page 3 when I looked) on the releases page.
 
 Under assets, locate the GitHub CLI 2.74.2 linux amd64 file that is needed. Linked here:
 
-https://github.com/cli/cli/releases/download/v2.74.2/gh_2.74.2_linux_amd64.tar.gz
+	https://github.com/cli/cli/releases/download/v2.74.2/gh_2.74.2_linux_amd64.tar.gz
 
 Download file:
 
-wget https://github.com/cli/cli/releases/download/v2.74.2/gh_2.74.2_linux_amd64.tar.gz
+	wget https://github.com/cli/cli/releases/download/v2.74.2/gh_2.74.2_linux_amd64.tar.gz
 
 Unpack file:
 
-tar -xzvf gh_2.74.2_linux_amd64.tar.gz
+	tar -xzvf gh_2.74.2_linux_amd64.tar.gz
 
 ## Task 3
 Building install_gh.sh script to complete the above.
 
 
-\#!/bin/bash
+	#!/bin/bash
+	set -ueo pipefail
 
-set -ueo pipefail
+	#get github version
+	wget https://github.com/cli/cli/releases/download/v2.74.2/gh_2.74.2_linux_amd64.tar.gz
 
-\#get github version
+	#unpack file
+	tar -xzvf gh_2.74.2_linux_amd64.tar.gz
 
-wget https://github.com/cli/cli/releases/download/v2.74.2/gh_2.74.2_linux_amd64.tar.gz
-
-\#unpack file
-
-tar -xzvf gh_2.74.2_linux_amd64.tar.gz
-
-\#remove zipped file
-
-rm gh_2.74.2_linux_amd64.tar.gz
+	#remove zipped file
+	rm gh_2.74.2_linux_amd64.tar.gz
 
 
 After running the script, be sure to make sure it is executable.
 
-
-chmod +x install_gh.sh
+	chmod +x install_gh.sh
 
 ## Task 4
 Now, add the output gh file to the path, by using nano ~/.bashrc
 
-export PATH=$PATH:/sciclone/home/sjhendricks/programs/gh_2.74.2_linux_amd64"
+	export PATH=$PATH:/sciclone/home/sjhendricks/programs/gh_2.74.2_linux_amd64"
 
-exec bash
+	exec bash
 
 ## Task 5
 Run gh auth login to setup Github. This was accomplished in class.
 
-gh auth login
+	gh auth login
 
 - hit 'enter' to select 'GitHub.com'
 - hit 'enter' to select 'HTTPS'
@@ -86,27 +80,20 @@ Installation script for seqtk.
 
 On the site https://github.com/lh3/seqtk , locate the installation commands in the introduction section.
 
-
-git clone https://github.com/lh3/seqtk.git;
-cd seqtk; make
-
+	git clone https://github.com/lh3/seqtk.git;
+	cd seqtk; make
 
 Now, using nano install_seqtk.sh
 
+	#!/bin/bash
+	set -ueo pipefail
 
-\#!/bin/bash
+	#install seqtk
+	git clone https://github.com/lh3/seqtk.git;
+	cd seqtk; make
 
-set -ueo pipefail
-
-\#install seqtk
-
-git clone https://github.com/lh3/seqtk.git;
-
-cd seqtk; make
-
-\#instructions to add directory
-
-echo "export PATH=$PATH:/sciclone/home/sjhendricks/programs/seqtk" >> ~/.bashrc
+	#instructions to add directory
+	echo "export PATH=$PATH:/sciclone/home/sjhendricks/programs/seqtk" >> ~/.bashrc
 
 
 Also, make sure to run chmod +x install_seqtk.sh to make executable.
@@ -124,69 +111,53 @@ Create summarize_fasta.sh
 
 Move to assignment_04 directory.
 
-cd ~/SUPERCOMPUTING/assignments/assignment_04/scripts
+	cd ~/SUPERCOMPUTING/assignments/assignment_04/scripts
 
 (prior to this assignment, ran mkdir ./data ./outputs ./scripts in assignment_04 directory)
 
 Now, nano summarize_fasta.sh
 
+	#!/bin/bash
+	set -ueo pipefail
+	
+	# save fasta file name as a variable (input)
+	file=${1}
 
-\#!/bin/bash
+	# shorten file name
+	short=$(basename $file)
 
-set -ueo pipefail
+	# calculate and save total number of sequences
+	seqs=$(grep "^>" ${file} | wc -l)
 
-\# save fasta file name as a variable (input)
+	# calculate and save total number of nucleotides
+	nucleotides=$(grep -v "^>" ${file} |tr -d "\n" | wc -c)
 
-file=${1}
+	# table of sequence names and lengths
+	table=$(seqtk comp ${file} | cut -f1,2)
 
-\# shorten file name
-
-short=$(basename $file)
-
-\# calculate and save total number of sequences
-
-seqs=$(grep "^>" ${file} | wc -l)
-
-\# calculate and save total number of nucleotides
-
-nucleotides=$(grep -v "^>" ${file} |tr -d "\n" | wc -c)
-
-\# table of sequence names and lengths
-
-table=$(seqtk comp ${file} | cut -f1,2)
-
-
-echo "Total Number of Sequences in ${short}"
-
-echo "${seqs}"
-
-echo "Total Number of Nucleotides in ${short}:"
-
-echo "${nucleotides}"
-
-echo "All Sequence names and lengths:"
-
-echo "${table}"
-
+	echo "Total Number of Sequences in ${short}"
+	echo "${seqs}"
+	
+	echo "Total Number of Nucleotides in ${short}:"
+	echo "${nucleotides}"
+	
+	echo "All Sequence names and lengths:"
+	echo "${table}"
 
 ## Task 9
 Run summarize_fasta.sh on multiple files (loop)
 
 After some issues with unzipping described in the reflection, I decided to just make a copy of the file used in a previous assignment, like below:
 
-wget https://gzahn.github.io/data/GCF_000001735.4_TAIR10.1_genomic.fna.gz
+	wget https://gzahn.github.io/data/GCF_000001735.4_TAIR10.1_genomic.fna.gz
+	gunzip GCF_000001735.4_TAIR10.1_genomic.fna.gz
 
-gunzip GCF_000001735.4_TAIR10.1_genomic.fna.gz
-
-cp GCF_000001735.4_TAIR10.1_genomic.fna.gz genome_copy_01.fna
-
-cp GCF_000001735.4_TAIR10.1_genomic.fna.gz genome_copy_02.fna
-
+	cp GCF_000001735.4_TAIR10.1_genomic.fna.gz genome_copy_01.fna
+	cp GCF_000001735.4_TAIR10.1_genomic.fna.gz genome_copy_02.fna
 
 Now, run summarize_fasta.sh on the three files in a loop.
 
-for file in *.fna; do summarize_fasta.sh $file;done
-
+	for file in *.fna; do summarize_fasta.sh $file;done
 
 After this, make sure to add assignments/assignment_04/data/ to the .gitignore
 
@@ -211,30 +182,27 @@ From this page I could copy the name/ filepath to the file to use in ftp.
 From here, used ftp on local machine, assignment_04/data directory, similar to assignment_02:
 (note, logged into ftp separate times for each genome using the same beginning commands)
 
-ftp ftp.ncbi.nlm.nih.gov
+	ftp ftp.ncbi.nlm.nih.gov
+	anonymous
+	Password: email
+	passive
+	
+	#repeat the beginning for each of these, follwed by 'bye'
 
-anonymous
+	1. cd genomes/all/GCF/000/002/985/GCF_000002985.6_WBcel235/
 
-Password: email
+	get GCF_000002985.6_WBcel235_genomic.fna.gz
 
-passive
+	2. cd genomes/all/GCA/034/640/255/GCA_034640255.1_ASM3464025v1/
 
-\#repeat the beginning for each of these, follwed by 'bye'
+	get GCA_034640255.1_ASM3464025v1_genomic.fna.gz
 
-1. cd genomes/all/GCF/000/002/985/GCF_000002985.6_WBcel235/
+	3. cd genomes/all/GCF/963/583/255/GCF_963583255.1_drPyrComm1.1
 
-get GCF_000002985.6_WBcel235_genomic.fna.gz
-
-2. cd genomes/all/GCA/034/640/255/GCA_034640255.1_ASM3464025v1/
-
-get GCA_034640255.1_ASM3464025v1_genomic.fna.gz
-
-3. cd genomes/all/GCF/963/583/255/GCF_963583255.1_drPyrComm1.1
-
-get GCF_963583255.1_drPyrComm1.1_genomic.fna.gz
+	get GCF_963583255.1_drPyrComm1.1_genomic.fna.gz
 
 
-bye
+	bye
 
 
 Then, used filezilla to move downloaded files to the HPC, same directory name (assignments/assignment_04/data)
