@@ -3,7 +3,7 @@ set -ueo pipefail
 
 # download accession data 
 for accession in $(cat ./data/SraRunTable.csv | cut -d',' -f1 | tail -n +2);
-do fasterq-dump ${accession} -O ./data/raw; 
+do fasterq-dump ${accession} -O /sciclone/scr10/sjhendricks/assignment_07/data/raw;
 done;
 
 # download dog reference genome
