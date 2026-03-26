@@ -8,6 +8,9 @@ assignments/assignment_06/assemblies
 assignments/assignment_07/data/clean
 assignments/assignment_07/data/raw
 assignments/assignment_07data/dog_reference
+assignments/assignment_07/assignment_07_286963.err
+assignments/assignment_07/assignment_07_286963.out
+assignments/assignment_07/ref
 
 # ignore data from lessons
 lessons/lesson_03/data

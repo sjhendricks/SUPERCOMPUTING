@@ -2,9 +2,9 @@
 set -ueo pipefail
 
 # loop through files
-for accession in $(cat ./data/SraRunTable.csv | cut -d',' -f1 | tail -n +2);
+for accession in $(cat ./data/SraRunTable.csv | cut -d ',' -f1 | tail -n +2);
 do
-FWD_IN="./data/raw/${accession}_1.fastq"
+FWD_IN="/sciclone/scr10/sjhendricks/assignment_07/data/raw/${accession}_1.fastq"
 REV_IN=${FWD_IN/_1.fastq/_2.fastq}
 FWD_OUT=${FWD_IN/.fastq/_trimmed.fastq}
 REV_OUT=${REV_IN/.fastq/_trimmed.fastq};
@@ -16,6 +16,5 @@ fastp \
 --out2 ${REV_OUT/raw/clean} \
 --json /dev/null \
 --html /dev/null \
---n_base_limit 0\
---average_qual 20\;
+--average_qual 20;
 done;
