@@ -7,8 +7,8 @@
 #SBATCH --mem=120G # how much physical memory (all by default)
 #SBATCH --mail-type=FAIL,BEGIN,END # when to email you
 #SBATCH --mail-user=sjhendricks@wm.edu # who to email
-#SBATCH -o assignment_07_%j.out #STDOUT to file (%j is jobID)
-#SBATCH -e assignment_07_%j.err #STDERR to file (%j is jobID)
+#SBATCH -o /sciclone/scr10/sjhendricks/assignment_07_%j.out #STDOUT to file (%j is jobID)
+#SBATCH -e /sciclone/scr10/sjhendricks/assignment_07_%j.err #STDERR to file (%j is jobID)
 
 
 ./scripts/01_download_data.sh
