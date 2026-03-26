@@ -161,20 +161,20 @@ The other thing I noticed from the .err file is that fasterq-dump failed after i
 I struggled a lot with this assignment. One of the biggest causes for confusion with this is how to determine what processes are OK to run on the login node and what needs to be sent in a job to slurm.
 I also was not very sure about the files I had selected (rightfully so) but was able to find in a previous lecture recording some information about searching on SRA. In the end, with the files that I had chosen, only four of them downloaded since fasterq-dump quit after encountering three accessions with no data in them, which is strange because each had data when I was looking at them on the website.
 For the future, I included new search terms that might yield better results to download in the first place.
-The downloading of the data itself through fasterq-dump was one of the processes I was concerned about running on the login node. I ended up testing my script by downloading only two of the files, and then only using the first 10 lines from each.
+For the task contene, the downloading of the data itself through fasterq-dump was one of the processes I was concerned about running on the login node. I ended up testing my scripts by downloading only two of the files, and then only using the first 10 lines from each.
 This was able to run on every step except for bbmap, which did not run (I think due to the size of the files still). All of my data and outputs were routed to scr10 for this assignment. The fastp usage in Task 3 was fairly straightforward, since we have worked with fastp before, so I felt that aside from making sure the filepaths are correct, this task was not too bad.
-As I mentioned before, the bbmap.sh test with smaller files still canceled when I attempted to run it on the login node, so I moved to the slurm script for this so that it would at least execute.
-The next step was downloading samtools, which I thought went correctly. However, my pipeline ended up failing because it could not locate samtools. I think the mistake I made here is that I didn't actually build samtools, I just installed it. I am hoping that the code below will help to actually build the samtools directory.
+As I mentioned before, for task 4, the bbmap.sh test with smaller files still canceled when I attempted to run it on the login node, so I moved to the slurm script for this so that it would at least execute.
+The next step was downloading samtools, which I thought went correctly. However, my pipeline ended up failing because it could not locate samtools. I think the mistake I made here is that I didn't actually build samtools, I just installed it. I attempted the code below after creating the ~/programs/samtools directory, but encountered a permission denied error. I think maybe the best route to go for samtools here would be installing it to a conda environment/bbmap-env instead to work around these issues.
 	
-	cd samtools-1.x    # and similarly for bcftools and htslib
-	./configure --prefix=/where/to/install
+	cd samtools-1.23.1    # and similarly for bcftools and htslib
+	./configure --prefix=~/programs/samtools
 	make	
 	make install
 
 The final step for the pipeline is to create the slurm script and send it in. 
-I felt that my downloading/qc scripts both were working after the tests on the smaller data, and submitting it to slurm would mean the bbmap is able to run as well.
-The slurm script failed about 4 hours in, as I mentioned before. I also noticed that I needed to be more specific about where my output and error files were going, as these ended up in my assignment_07 folder instead of scr10. I changed the slurm script so that these will go to the right place in the future. 
-Aside from the samtools error, at this point I also noticed the fasterq-dump failure that resulted in only a few of the files being downloaded. I think this could be amended by choosing different accessions, perhaps with the new search terms I mentioned above.
-
+I felt that my downloading/qc scripts both were working after the tests on the smaller data, and submitting it to slurm would mean the bbmap should be able to run as well.
+In the end, the slurm script failed about 4 hours in, as I mentioned before. When I was looking for the .err file to investigate why the slurm job failed, I also noticed that I needed to be more specific about where my output and error files were going, as these ended up in my assignment_07 folder instead of scr10. I changed the slurm script so that these will go to the right place in the future. 
+Within the .err file, aside from the samtools error, at this point I also noticed the fasterq-dump failure that resulted in only a few of the files being downloaded. I think this could be amended by choosing different accessions, perhaps with the new search terms I mentioned above.
 
 Overall, the recorded lecture videos on the google drive and the lesson_07 document were really helpful to get going on the right track, however I feel that I really need to gain more confidence when it comes to determining what processes can and cannot be run on the login node, as well as determining the optimal parameters that can be used for slurm requests.
+I also don't think I realized just how long that some of these processes could take (bbmap especially).
